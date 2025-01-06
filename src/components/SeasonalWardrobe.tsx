@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Search } from 'lucide-react';
 import { db } from '../lib/db';
 import type { ClothingItem } from '../types';
 
@@ -8,6 +8,7 @@ export default function SeasonalWardrobe() {
   const { userId, season } = useParams();
   const [items, setItems] = useState<ClothingItem[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [titleFilter, setTitleFilter] = useState('');
   const [newItem, setNewItem] = useState({
     title: '',
     size: '',
@@ -56,6 +57,10 @@ export default function SeasonalWardrobe() {
     loadItems();
   };
 
+  const filteredItems = items.filter(item => 
+    item.title.toLowerCase().includes(titleFilter.toLowerCase())
+  );
+
   return (
     <div className="max-w-4xl mx-auto px-4">
       <div className="flex justify-between items-center mb-8">
@@ -75,7 +80,7 @@ export default function SeasonalWardrobe() {
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow mb-8">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Título</label>
+              <label className="block text-sm font-medium mb-1">Tipo de prenda</label>
               <input
                 type="text"
                 value={newItem.title}
@@ -131,8 +136,19 @@ export default function SeasonalWardrobe() {
         </form>
       )}
 
+      <div className="mb-6 relative">
+        <input
+          type="text"
+          placeholder="Buscar por tipo..."
+          value={titleFilter}
+          onChange={(e) => setTitleFilter(e.target.value)}
+          className="w-full p-2 pl-10 border rounded-lg"
+        />
+        <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <div key={item.id} className="bg-white rounded-lg shadow overflow-hidden">
             <img
               src={item.imageUrl}
