@@ -9,5 +9,5 @@ export interface ClothingItem {
   title: string;
   size: string;
   season: 'winter' | 'summer';
-  imageUrl: string;
+  imageUrl: string; // This will now store base64 image data
 }
