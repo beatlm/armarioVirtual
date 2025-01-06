@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Plus, Trash2, Upload } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { db } from '../lib/db';
 import type { ClothingItem } from '../types';
 
@@ -102,7 +102,6 @@ export default function SeasonalWardrobe() {
                   <input
                     type="file"
                     accept="image/*"
-                    capture="environment"
                     onChange={handleImageChange}
                     className="block w-full text-sm text-gray-500
                       file:mr-4 file:py-2 file:px-4
